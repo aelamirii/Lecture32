@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app = "SHoppingListApp">
+  <head>
+    <meta charset="utf-8">
+    <script src = "jQuery-3.1.0.min.js"></script>
+    <script src = "angular.min.js"></script>
+    <script src = "app1.js"></script>
+    <link rel="stylesheet" href="Style1.css">
+    <title> Using directive to Transclude a wrap element </title>
+  </head>
+  <body>
+    <h1> Using directive to Transclude a wrap element </h1>
+
+    <div ng-controller = "ShoppingListController as list1">
+        <h3> Shopping List 1 </h3>
+
+        <input type="text" ng-model = "list1.ItemName" placeholder="Name">
+        <input type="text" ng-model = "list1.ItemQuantity" placeholder="Quantity">
+        <button type="button" ng-click = "list1.addItem();">Add a new Item</button>
+        <span> {{ list1.LastItem }} </span>
+
+        <shopping-list
+            id = "list1"
+            list-directive = "list1"
+            title-directive = "{{ list1.Title_Controller }}"
+            on-remove = " list1.RemoveItem(indexKey) "
+        >
+
+        <span class = "warning"> Warnign Warning {{ list1.WarningMessage }} </span>
+
+      </shopping-list>
+
+
+      <shopping-list
+          id = "list2"
+          list-directive = "list1"
+          title-directive = "{{ list1.Title_Controller }}"
+          on-remove = " list1.RemoveItem(indexKey) "
+      >
+
+      <div>
+        <div class="title">  Oh warning</div>
+        <div>  {{ list1.WarningMessage}}</div>
+      </div>
+
+    </shopping-list>
+
+        <!-- <ol>
+          <li ng-repeat = "item in list1.getItems">
+            {{ item.quantity }} of {{ item.name }}
+            <button type="button" ng-click = "list1.RemoveItem($index);">Remove Item</button>
+          </li>
+        </ol> -->
+
+
+
+    </div>
+
+  </body>
+</html>

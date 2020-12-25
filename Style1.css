@@ -1,0 +1,24 @@
+.error{
+  color: red;
+  display: none;
+}
+
+#list1, #list2{
+  float: left;
+}
+
+#list2{
+  margin-left: 20px;
+}
+
+.warning{
+  font-style: italic;
+  font-weight: bold;
+
+}
+
+.title{
+  background-color: #383838;
+  color: #00aced;
+  font-size: 18px;
+}

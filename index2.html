@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app = "ShoppingListApp">
+  <head>
+    <meta charset="utf-8">
+    <script src = "jQuery-3.1.0.min.js"></script>
+    <script src = "angular.min.js"></script>
+    <script src = "app2.js"></script>
+    <link rel="stylesheet" href="Style2.css">
+    <title> Directive transclude to wrap other elements </title>
+  </head>
+  <body>
+    <h1>  Directive transclude to wrap other elements  </h1>
+
+    <div ng-controller = "ShoppingListController as list1">
+      <!-- <h3> Shoppig List 1  </h3> -->
+
+      <input type="text" ng-model = "list1.ItemName" placeholder="Name">
+      <input type="text" ng-model = "list1.ItemQuantity" placeholder="Quantity">
+      <button type="button" ng-click = "list1.addItem();" >Add a new Item</button>
+      <span> {{ list1.LastRemoved }} </span>
+
+      <shopping-list
+          list-directive = "list1"
+          title-directive = " {{list1.TitleController}} "
+          on-remove = "list1.RemoveItem(indexKey)"
+      >
+
+      <span> WArningggggggg</span>
+
+    </shopping-list>
+
+      <!-- <ol>
+        <li ng-repeat = "item in list1.getItems">
+          {{ item.quantity }} of {{ item.name }}
+          <button type="button" ng-click = "list1.RemoveItem($index);">Remove Item</button>
+        </li>
+      </ol> -->
+
+
+    </div>
+
+
+
+  </body>
+</html>
