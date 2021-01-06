@@ -1,13 +1,13 @@
 .error{
   color: red;
-  display: none
+  display: none;
 }
 
 #list1, #list2{
   float: left;
 }
 
-.Warning{
+.warning{
   margin-left: 20px;
 }
 

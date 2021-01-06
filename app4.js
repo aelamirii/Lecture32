@@ -3,32 +3,30 @@
 
 angular.module('ShoppingListApp', [])
 .controller('ShoppingListController', ShoppingListController )
-.factory('ShoppingListFactory', ShoppingListFactory)
+.factory('ShoppingListFactory', ShoppingListFactory )
 .directive('shoppingList', ShoppingList)
 ;
+
+
 
 
 function ShoppingList() {
 
   var ddo = {
-    templateUrl: 'shoppingList2.html',
+    templateUrl: 'shoppingList4.html',
     scope: {
       listDirective: '<',
       titleDirective: '@',
       onRemove: '&'
     },
     controller: ShoppingListDirectiveController,
-    controllerAs: 'ListDirectiveController',
+    controllerAs: 'listDirectiveController',
     bindToController: true,
     link: ShoppingListDirectiveLink,
     transclude: true
-
   };
   return ddo;
 };
-
-
-
 
 
 function ShoppingListDirectiveLink(scope, element, attrs, controller) {
@@ -38,46 +36,45 @@ function ShoppingListDirectiveLink(scope, element, attrs, controller) {
   console.log("attrs :", attrs);
   console.log("controller :", controller);
 
-  scope.$watch('ListDirectiveController.findcookies()', function (newValue, oldValue) {
+  scope.$watch('listDirectiveController.findcookies()', function (newValue, oldValue) {
 
     console.log("Old Value :", oldValue);
     console.log("New Value :", newValue);
 
     if(newValue === true)
     {
-      DisplayCookieWarning();
+      DisplayWaningMessage();
     }
     else {
-      RemoveCookieWarning();
+      RemoveWaningMessage();
     }
 
   });
 
-  function DisplayCookieWarning() {
-    //  Using JqLite
-    // var warningElement = element.find("div");
-    // warningElement.css("display", "block");
+  function DisplayWaningMessage() {
+    // Using JkLite
+    // var WarningMessage = element.find("div");
+    // WarningMessage.css("display", "block");
 
     // Using jQuery
-    var WarningElement = element.find("div.error");
-    WarningElement.slideDown(700);  //
-    // WarningElement.toString();
-  };
-
-  function RemoveCookieWarning() {
-    // var warningElement = element.find("div");
-    // warningElement.css("display", "none");
-
-    // Using jQuery
-    var WarningElement = element.find("div.error");
-    WarningElement.slideUp(700);
+    var WarningMessage = element.find("div.error");
+    WarningMessage.slideDown(800);
 
   };
 
+  function RemoveWaningMessage() {
+    // Using JkLite
+    // var WarningMessage = element.find("div");
+    // WarningMessage.css("display", "none");
+    // Using jQuery
+    var WarningMessage = element.find("div.error");
+    WarningMessage.slideUp(800);
 
-}
+  };
 
 
+
+};
 
 
 
@@ -92,13 +89,10 @@ function ShoppingListDirectiveController() {
       if(name.toLowerCase().indexOf("cookies") !== -1)
       return true;
     }
-    return false;
+      return false;
   };
 
-
 };
-
-
 
 
 
@@ -109,20 +103,20 @@ function ShoppingListController(ShoppingListFactory) {
 
   var ShoppingList = ShoppingListFactory();
 
-  list.ItemName = "cookies";
+  list.ItemName = "";
   list.ItemQuantity = "";
 
   list.getItems = ShoppingList.getItems();
 
   var Org_Title = "Shopping List 1 ";
-  list.TitleController = Org_Title + "("+ list.getItems.length +")";
+  list.titleController = Org_Title + "("+ list.getItems.length +")";
 
-  list.WarningMessage = " cookies is detected";
+  list.WarningMessage = "Warning Warning, cookies detected .............................";
 
   list.addItem = function () {
     try {
       ShoppingList.addItem(list.ItemName, list.ItemQuantity );
-      list.TitleController = Org_Title + "("+ list.getItems.length +")";
+      list.titleController = Org_Title + "("+ list.getItems.length +")";
     } catch (e) {
       list.errorMessage = e.message;
     } finally {
@@ -131,14 +125,15 @@ function ShoppingListController(ShoppingListFactory) {
   };
 
   list.RemoveItem = function (indexItem) {
-    console.log("this is :", this);
-    this.LastRemoved = "Last item removed was : "+ list.getItems[indexItem].name;
+
     ShoppingList.RemoveItem(indexItem);
     list.errorMessage = "";
-    this.TitleController = Org_Title + "("+ list.getItems.length +")";
+    list.titleController = Org_Title + "("+ list.getItems.length +")";
   };
 
 };
+
+
 
 
 
@@ -162,7 +157,7 @@ function ShoppingList_Service(maxItems) {
       Items.push(item);
     }
     else {
-      throw new Error("Max items ("+ Items.length +") was reached");
+      throw new Erro("Max items ("+ Items.length +") was reached ");
     }
 
   };
@@ -172,20 +167,19 @@ function ShoppingList_Service(maxItems) {
   };
 
   service.RemoveItem = function (indexItem) {
-    Items.splice( indexItem, 1 );
+    Items.splice( indexItem , 1 );
   };
 
 };
 
 
 function ShoppingListFactory() {
+
   var factory = function (maxItems) {
     return new ShoppingList_Service(maxItems);
   };
   return factory;
 };
-
-
 
 
 })();

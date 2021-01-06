@@ -20,14 +20,30 @@
       <span> {{ list1.LastRemoved }} </span>
 
       <shopping-list
+          id = "list1"
           list-directive = "list1"
           title-directive = " {{list1.TitleController}} "
           on-remove = "list1.RemoveItem(indexKey)"
       >
 
-      <span> WArningggggggg</span>
+      <span class = "Warning"> Warning Warning {{list1.WarningMessage}}</span>
 
     </shopping-list>
+
+
+    <shopping-list
+        id = "list2"
+        list-directive = "list1"
+        title-directive = " {{list1.TitleController}} "
+        on-remove = "list1.RemoveItem(indexKey)"
+    >
+
+    <div>
+        <div class="title"> Oh, herror </div>
+        <div>  {{list1.WarningMessage}} </div>
+    </div>
+
+  </shopping-list>
 
       <!-- <ol>
         <li ng-repeat = "item in list1.getItems">

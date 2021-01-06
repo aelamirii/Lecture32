@@ -8,10 +8,12 @@ angular.module('ShoppingListApp', [])
 ;
 
 
+
+
 function ShoppingList() {
 
   var ddo = {
-    templateUrl: 'shoppingList2.html',
+    templateUrl: 'shoppingList5.html',
     scope: {
       listDirective: '<',
       titleDirective: '@',
@@ -22,21 +24,17 @@ function ShoppingList() {
     bindToController: true,
     link: ShoppingListDirectiveLink,
     transclude: true
-
   };
   return ddo;
 };
 
 
-
-
-
 function ShoppingListDirectiveLink(scope, element, attrs, controller) {
 
-  console.log("scope :", scope);
-  console.log("element :", element);
-  console.log("attrs :", attrs);
-  console.log("controller :", controller);
+  console.log("scope :",scope);
+  console.log("element :",element);
+  console.log("attrs :",attrs);
+  console.log("controller :",controller);
 
   scope.$watch('ListDirectiveController.findcookies()', function (newValue, oldValue) {
 
@@ -45,47 +43,45 @@ function ShoppingListDirectiveLink(scope, element, attrs, controller) {
 
     if(newValue === true)
     {
-      DisplayCookieWarning();
+      DisplayWarningMessage();
     }
     else {
-      RemoveCookieWarning();
+      RemoveWarningMessage();
     }
 
   });
 
-  function DisplayCookieWarning() {
-    //  Using JqLite
-    // var warningElement = element.find("div");
-    // warningElement.css("display", "block");
+
+  function DisplayWarningMessage() {
+    // Using JqLite
+    // var WarningElement = element.find("div");
+    // WarningElement.css("display", "block");
 
     // Using jQuery
-    var WarningElement = element.find("div.error");
-    WarningElement.slideDown(700);  //
-    // WarningElement.toString();
-  };
-
-  function RemoveCookieWarning() {
-    // var warningElement = element.find("div");
-    // warningElement.css("display", "none");
-
-    // Using jQuery
-    var WarningElement = element.find("div.error");
-    WarningElement.slideUp(700);
+    var WarningMessage = element.find("div.error");
+    WarningMessage.slideDown(800);
 
   };
 
+  function RemoveWarningMessage() {
+    // Using JqLite
+    // var WarningElement = element.find("div");
+    // WarningElement.css("display", "none");
+
+    // Using jQuery
+    var WarningMessage = element.find("div.error");
+    WarningMessage.slideUp(800);
+
+  };
 
 }
-
-
-
 
 
 function ShoppingListDirectiveController() {
 
   var list_temps = this;
 
-  list_temps.findcookies = function () {
+  list_temps.findcookies= function () {
 
     for (var i = 0; i < list_temps.listDirective.getItems.length; i++) {
       var name = list_temps.listDirective.getItems[i].name;
@@ -93,11 +89,9 @@ function ShoppingListDirectiveController() {
       return true;
     }
     return false;
+
   };
-
-
 };
-
 
 
 
@@ -109,36 +103,37 @@ function ShoppingListController(ShoppingListFactory) {
 
   var ShoppingList = ShoppingListFactory();
 
-  list.ItemName = "cookies";
+  list.ItemName = "";
   list.ItemQuantity = "";
 
   list.getItems = ShoppingList.getItems();
 
   var Org_Title = "Shopping List 1 ";
-  list.TitleController = Org_Title + "("+ list.getItems.length +")";
+  list.titleController = Org_Title + "("+ list.getItems.length +")";
 
-  list.WarningMessage = " cookies is detected";
+  list.WArningMessage = "cookies detected -----------------";
 
   list.addItem = function () {
     try {
-      ShoppingList.addItem(list.ItemName, list.ItemQuantity );
-      list.TitleController = Org_Title + "("+ list.getItems.length +")";
+      ShoppingList.addItem(list.ItemName, list.ItemQuantity);
+      list.titleController = Org_Title + "("+ list.getItems.length +")";
     } catch (e) {
-      list.errorMessage = e.message;
+      list.errorMessage = e.message
     } finally {
 
     }
   };
 
   list.RemoveItem = function (indexItem) {
-    console.log("this is :", this);
-    this.LastRemoved = "Last item removed was : "+ list.getItems[indexItem].name;
-    ShoppingList.RemoveItem(indexItem);
-    list.errorMessage = "";
-    this.TitleController = Org_Title + "("+ list.getItems.length +")";
+      console.log("this is : ", this);
+      this.LastRemoved = "Last item removed was : "+list.getItems[indexItem].name;
+      ShoppingList.RemoveItem( indexItem);
+      list.errorMessage = "";
+      this.titleController = Org_Title + "("+ list.getItems.length +")";
   };
 
 };
+
 
 
 
@@ -162,27 +157,29 @@ function ShoppingList_Service(maxItems) {
       Items.push(item);
     }
     else {
-      throw new Error("Max items ("+ Items.length +") was reached");
+      throw new Error("Max items ("+ Items.length +") was reached ");
     }
 
   };
+
 
   service.getItems = function () {
     return Items;
   };
 
   service.RemoveItem = function (indexItem) {
-    Items.splice( indexItem, 1 );
+    Items.splice( indexItem , 1 );
   };
 
 };
 
 
 function ShoppingListFactory() {
+
   var factory = function (maxItems) {
     return new ShoppingList_Service(maxItems);
   };
-  return factory;
+    return factory;
 };
 
 
